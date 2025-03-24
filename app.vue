@@ -9,6 +9,35 @@
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
     >
       <div
+        v-if="loading"
+        v-for="i in 6"
+        :key="i"
+        class="card bg-neutral w-3xs max-w-sm shadow-lg hover:shadow-2xl transition-transform hover:scale-105 duration-300 cursor-pointer rounded-2xl overflow-hidden"
+      >
+        <div class="relative">
+          <div class="w-full h-48 object-cover skeleton"></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+          ></div>
+          <span
+            class="absolute bottom-2 left-3 px-3 py-1 rounded-full shadow skeleton h-6 w-24"
+          ></span>
+        </div>
+        <div class="p-4 flex flex-col gap-3">
+          <div class="flex justify-between items-center">
+            <span
+              class="left-3 px-3 py-1 rounded-full shadow skeleton h-6 w-16"
+            ></span
+            ><span class="skeleton px-2 py-1 rounded-full h-6 w-16"> </span>
+          </div>
+          <button
+            class="skeleton mt-2 w-full bg-gray-700 hover:bg-gray-800 text-white text-sm font-medium py-2 rounded-lg transition-colors"
+          ></button>
+        </div>
+      </div>
+
+      <div
+        v-if="!loading"
         v-for="(room, index) in rooms"
         :key="index"
         :class="[
