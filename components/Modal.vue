@@ -39,7 +39,6 @@
       <!-- PAYMENT HISTORY -->
       <div class="space-y-2">
         <h4 class="text-lg font-semibold">💳 Payment History</h4>
-        {{}}
         <div class="overflow-auto max-h-40">
           <table class="table w-full table-sm">
             <thead>

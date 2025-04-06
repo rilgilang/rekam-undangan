@@ -3,7 +3,9 @@
     class="min-h-screen w-full flex flex-col items-center justify-center gap-6 p-6 bg-[url(/img/background.png)] bg-cover bg-center"
     data-theme="dim"
   >
-    <Modal />
+    <ClientOnly>
+      <Modal />
+    </ClientOnly>
     <h1 class="text-3xl font-bold text-center">🏠 S1GMA Kost Rooms 🤫🧏🏿</h1>
     <div
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
@@ -103,7 +105,6 @@ const rooms = ref([]);
 onMounted(async () => {
   await store.getRooms();
   loading.value = false;
-  console.log("store.rooms --> ", store.rooms);
   rooms.value = store.rooms;
 });
 

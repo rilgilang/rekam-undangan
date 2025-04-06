@@ -85,6 +85,8 @@ export const useRoomStore = defineStore("rooms", {
     async setSelectedRoom(index) {
       this.selectedRoom = this.rooms[index];
 
+      console.log("selected room --> ", this.selectedRoom);
+
       const config = useRuntimeConfig();
 
       const { data, error } = await useFetch(
