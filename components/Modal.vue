@@ -1,11 +1,12 @@
 <template>
-  <dialog id="my_modal_2" class="modal">
+  <dialog id="room_modal" class="modal" :open="store.roomModal">
     <div class="modal-box max-w-2xl">
       <h3 class="text-2xl font-bold mb-4">Room & Payment Details</h3>
 
       <!-- ROOM DETAILS -->
       <div class="space-y-2 mb-6">
         <h4 class="text-lg font-semibold">🏠 Room Information</h4>
+        {{ room }}
         <div class="grid grid-cols-2 gap-2 text-sm">
           <div>
             <span class="font-medium">Room Number:</span>
@@ -78,7 +79,8 @@
 <script setup>
 import { useRoomStore } from "~/store/room.store";
 const store = useRoomStore();
-const room = computed(() => store.selectedRoom);
+const props = defineProps(["room"]);
+const { room } = props;
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);

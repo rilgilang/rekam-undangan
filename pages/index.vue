@@ -1,11 +1,8 @@
 <template>
   <div
-    class="min-h-screen w-full flex flex-col items-center justify-center gap-6 p-6 bg-[url(/img/background.png)] bg-cover bg-center"
+    class="min-h-screen w-full flex flex-col items-center justify-center gap-6 p-6"
     data-theme="dim"
   >
-    <!-- Updated binding for modal -->
-    <Modal />
-
     <h1 class="text-3xl font-bold text-center">🏠 S1GMA Kost Rooms 🤫🧏🏿</h1>
     <div
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
@@ -81,12 +78,11 @@
             </span>
           </div>
 
-          <button
-            class="mt-2 w-full bg-gray-700 hover:bg-gray-800 text-white text-sm font-medium py-2 rounded-lg transition-colors"
-            @click="setSelectedRoom(index)"
+          <NuxtLink
+            class="mt-2 w-full bg-gray-700 hover:bg-gray-800 text-white text-sm font-medium py-2 rounded-lg transition-colors text-center"
+            :to="{ name: 'room-id', params: { id: room.id } }"
+            >View Detail</NuxtLink
           >
-            View Room
-          </button>
         </div>
       </div>
     </div>
@@ -95,22 +91,15 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import Modal from "./components/Modal.vue";
 import { useRoomStore } from "~/store/room.store";
 
 const store = useRoomStore();
 const loading = ref(true);
 const rooms = ref([]);
-const dialogRef = ref(null); // ← ref for dialog
 
 onMounted(async () => {
   await store.getRooms();
   loading.value = false;
   rooms.value = store.rooms;
 });
-
-const setSelectedRoom = (index) => {
-  store.setSelectedRoom(index);
-  my_modal_2.showModal();
-};
 </script>
