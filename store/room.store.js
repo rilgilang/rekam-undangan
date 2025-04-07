@@ -85,11 +85,9 @@ export const useRoomStore = defineStore("rooms", {
     async setSelectedRoom(index) {
       this.selectedRoom = this.rooms[index];
 
-      console.log("selected room --> ", this.selectedRoom);
-
       const config = useRuntimeConfig();
 
-      const { data, error } = await useFetch(
+      const { data } = await useFetch(
         `${config.public.apiBase}/api/payments/${this.selectedRoom.id}`,
         {
           method: "GET",
@@ -99,9 +97,6 @@ export const useRoomStore = defineStore("rooms", {
       if (data.value) {
         this.selectedRoom.payment_history = data.value;
       }
-
-      my_modal_2.showModal();
-      return;
     },
     getSelectedRoom() {
       return this.selectedRoom;

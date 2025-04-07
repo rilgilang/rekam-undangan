@@ -3,9 +3,9 @@
     class="min-h-screen w-full flex flex-col items-center justify-center gap-6 p-6 bg-[url(/img/background.png)] bg-cover bg-center"
     data-theme="dim"
   >
-    <ClientOnly>
-      <Modal />
-    </ClientOnly>
+    <!-- Updated binding for modal -->
+    <Modal />
+
     <h1 class="text-3xl font-bold text-center">🏠 S1GMA Kost Rooms 🤫🧏🏿</h1>
     <div
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center"
@@ -94,13 +94,14 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
 import Modal from "./components/Modal.vue";
 import { useRoomStore } from "~/store/room.store";
 
 const store = useRoomStore();
 const loading = ref(true);
 const rooms = ref([]);
+const dialogRef = ref(null); // ← ref for dialog
 
 onMounted(async () => {
   await store.getRooms();
@@ -110,5 +111,6 @@ onMounted(async () => {
 
 const setSelectedRoom = (index) => {
   store.setSelectedRoom(index);
+  my_modal_2.showModal();
 };
 </script>
