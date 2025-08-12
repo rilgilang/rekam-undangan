@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { io } from 'socket.io-client'
 
+const config = useRuntimeConfig();
+
 // Removed useHead import - it's available globally in Nuxt 3
 const invitationUrl = ref('')
 const isProcessing = ref(false)
@@ -40,7 +42,7 @@ const submitUrl = async () => {
   invitationUrl.value = ''
 
   try {
-    const response = await fetch('https://rekam-undangan-api.duckdns.org/api/process-video', {
+    const response = await fetch(`${config.public.apiBase}:8081/api/process-video`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -88,7 +90,7 @@ const shareVideo = async (videoUrl) => {
 
 const fetchAllVideos = async () => {
   try {
-    const response = await fetch('https://rekam-undangan-api.duckdns.org/api/video').then(res => res.json())
+    const response = await fetch(`${config.public.apiBase}:8081/api/video`).then(res => res.json())
 
     if (response.status) {
       videos.value = response.data
@@ -110,7 +112,7 @@ const fetchAllVideos = async () => {
 // }
 
 const setupSocket = () => {
-  socket.value = io('https://rekam-undangan-automation.duckdns.org/')
+  socket.value = io(`${config.public.apiBase}:8082`)
 
   socket.value.on('video-complete', (data) => {
     console.log('Video processing complete:', data)
