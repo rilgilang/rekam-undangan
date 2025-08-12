@@ -40,7 +40,7 @@ const submitUrl = async () => {
   invitationUrl.value = ''
 
   try {
-    const response = await fetch('http://localhost:8081/api/process-video', {
+    const response = await fetch('https://rekam-undangan-api/api/process-video', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ const shareVideo = async (videoUrl) => {
 
 const fetchAllVideos = async () => {
   try {
-    const response = await fetch('http://localhost:8081/api/video').then(res => res.json())
+    const response = await fetch('https://rekam-undangan-api/api/video').then(res => res.json())
 
     if (response.status) {
       videos.value = response.data
@@ -110,7 +110,7 @@ const fetchAllVideos = async () => {
 // }
 
 const setupSocket = () => {
-  socket.value = io('http://localhost:8082')
+  socket.value = io('https://rekam-undangan-automation/')
 
   socket.value.on('video-complete', (data) => {
     console.log('Video processing complete:', data)
