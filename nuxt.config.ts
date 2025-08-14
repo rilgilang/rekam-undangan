@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: process.env.API_BASE,
+      socketBase: process.env.SOCKET_BASE,
     },
   },
 });
