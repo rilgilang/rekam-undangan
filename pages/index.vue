@@ -222,7 +222,7 @@ onUnmounted(() => {
               E-Invitation URL
             </label>
             <input id="url" v-model="invitationUrl" type="url" required placeholder="https://example.com/invitation/123"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+              class="w-full px-3 py-2 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
 
           <button type="submit" :disabled="!invitationUrl"
