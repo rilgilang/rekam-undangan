@@ -102,7 +102,6 @@ const fetchAllVideos = async () => {
 }
 
 const downloadVideo = async (uniqueId) => {
-  console.log("ini tod")
   try {
     const response = await fetch(`${config.public.apiBase}/api/video/${uniqueId}`, {
       method: 'GET',
