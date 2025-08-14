@@ -56,7 +56,7 @@ const submitUrl = async () => {
     if (response.data == "ok") {
       const video = videos.value.find(v => v.id === videoId)
       if (video) {
-        video.status = 'Processing video... This action will take 5-7 minute.'
+        video.status = 'Processing video... This action will take 5-10 minute.'
       }
     } else {
       throw new Error(response.message || 'Conversion failed')
@@ -100,6 +100,48 @@ const fetchAllVideos = async () => {
     console.error('Failed to fetch videos:', error)
   }
 }
+
+const downloadVideo = async (uniqueId) => {
+  console.log("ini tod")
+  try {
+    const response = await fetch(`${config.public.apiBase}/api/video/${uniqueId}`, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Get the stream as a blob
+    const blob = await response.blob();
+
+    // Create a URL for the blob
+    const url = window.URL.createObjectURL(blob);
+
+    // Create a temporary link to trigger the download
+    const a = document.createElement('a');
+    a.href = url;
+
+    // You can extract filename from headers if the API sends it
+    const disposition = response.headers.get('content-disposition');
+    let filename = 'video.mp4';
+    if (disposition && disposition.includes('filename=')) {
+      filename = disposition.split('filename=')[1].replace(/"/g, '');
+    }
+
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+  } catch (error) {
+    console.error('Failed to download video:', error);
+  }
+};
+
 
 // const fetchServerStatus = async () => {
 //   try {
@@ -159,11 +201,11 @@ const cleanupSocket = () => {
 onMounted(async () => {
   // await fetchServerStatus()
   await fetchAllVideos()
-  setupSocket()
+  // setupSocket()
 })
 
 onUnmounted(() => {
-  cleanupSocket()
+  // cleanupSocket()
 })
 </script>
 
@@ -227,17 +269,19 @@ onUnmounted(() => {
               <div v-if="video.isProcessing" class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2">
               </div>
               <span class="text-sm font-medium">{{ video.status }}</span>
-              <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15"
-                    stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#1C274C" stroke-width="1.5"
-                    stroke-linecap="round" stroke-linejoin="round"></path>
-                </g>
-              </svg>
+              <button @click="downloadVideo(video.unique_id)" class="cursor-pointer">
+                <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15"
+                      stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#1C274C" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"></path>
+                  </g>
+                </svg>
+              </button>
             </div>
           </div>
 
